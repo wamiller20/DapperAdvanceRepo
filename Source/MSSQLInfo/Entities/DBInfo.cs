@@ -9,6 +9,11 @@ namespace MSSQLInfo.Entities
 {
     public class DBInfo : IDBInfo
     {
+        public DBInfo()
+        {
+            this.Tables = new List<ITable>();
+        }
+
         public List<ITable> Tables { get; set; }
     }
 }

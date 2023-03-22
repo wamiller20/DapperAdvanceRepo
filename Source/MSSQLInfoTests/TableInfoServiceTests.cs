@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MSSQLInfo;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,27 @@ namespace MSSQLInfo.Tests
     [TestClass]
     public class TableInfoServiceTests
     {
+        private TableInfoService tableInfoService;
+
+        [TestInitialize]
         [TestMethod]
-        public void TableInfoServiceTest()
+        public void Setup()
         {
-            Assert.Fail();
+            this.tableInfoService = new TableInfoService(@"localhost\SQLExpress", "BillPayEmpty");
+            this.tableInfoService.ShouldNotBeNull();
         }
 
         [TestMethod]
         public void GetDBInfoTest()
         {
-            Assert.Fail();
+            var dbInfo = this.tableInfoService.GetDBInfo();
+
+            dbInfo.ShouldNotBeNull();
+            dbInfo.Tables.First().TableName.ShouldNotBeNullOrWhiteSpace();
+            dbInfo.Tables.Count().ShouldBeGreaterThan(1);
+            dbInfo.Tables.First().Columns.Count().ShouldBeGreaterThan(1);
+            dbInfo.Tables.First().Columns.First().ColumnName.ShouldNotBeNullOrWhiteSpace();
+            dbInfo.Tables.First().Columns.First().ColumnDataType.ShouldNotBeNullOrWhiteSpace();
         }
     }
 }

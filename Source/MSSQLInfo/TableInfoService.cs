@@ -10,6 +10,7 @@ namespace MSSQLInfo
 {
     using MSSQLInfo.Entities;
     using RepoDomain.Interfaces;
+    using System.Data;
 
     public class TableInfoService
     {
@@ -21,22 +22,49 @@ namespace MSSQLInfo
         {
             this.serverName = serverName;
             this.databaseName = databaseName;
-            this.connectionString = $"data source={serverName};initial catalog = {databaseName}; persist security info = True;Integrated Security = SSPI;";
+            this.connectionString = $"data source={serverName};initial catalog = {databaseName}; Encrypt=False; persist security info = True;Integrated Security = SSPI;";
         }
 
         public IDBInfo GetDBInfo()
         {
             var server = GetServer();
             var database = server.Databases[this.databaseName];
-            var tableNames = database.EnumObjects(DatabaseObjectTypes.Table);
-            return new DBInfo();
+            var dbInfo = new DBInfo();
+
+            foreach (Table table in database.Tables)
+            {
+                dbInfo.Tables.Add(GetTable(table));
+                
+            }
+            return dbInfo;
         }
 
         private Server GetServer()
         {
             var serverConnection = new ServerConnection(this.serverName);
             serverConnection.ConnectionString = this.connectionString;
+            serverConnection.TrustServerCertificate = true;
             return new Server(serverConnection);
+        }
+
+        private ITable GetTable(Table table)
+        {
+            var tableInfo = new TableInfo();
+            tableInfo.TableName = table.Name;
+            foreach (Column column in table.Columns)
+            {
+                tableInfo.Columns.Add(GetColumn(column));
+            }
+            return tableInfo;
+        }
+
+        private IColumn GetColumn(Column column)
+        {
+            var columnInfo = new ColumnInfo();
+            columnInfo.ColumnName = column.Name;
+            columnInfo.PrimaryKey = column.InPrimaryKey;
+            columnInfo.ColumnDataType = column.DataType.Name;
+            return columnInfo;
         }
     }
 }

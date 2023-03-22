@@ -9,6 +9,10 @@ namespace MSSQLInfo.Entities
 {
     public class TableInfo : ITable
     {
+        public TableInfo()
+        {
+            this.Columns = new List<IColumn>();
+        }
         public string TableName { get; set; }
         public List<IColumn> Columns { get; set; }
     }
