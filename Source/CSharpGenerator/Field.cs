@@ -4,7 +4,7 @@ public class Field
     public string FieldType;
     public string FieldName;
 
-    public Field()
+    public Field(string columnDataType, string columnName)
     {
     }
 }

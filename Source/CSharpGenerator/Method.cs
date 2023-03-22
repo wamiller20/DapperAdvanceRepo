@@ -1,7 +1,7 @@
 public class Method
 {
     public string MethodName;
-    public List<string> Parameters;
+    public List<Parameter> Parameters;
     public string ReturnType;
     public string Body;
 }
