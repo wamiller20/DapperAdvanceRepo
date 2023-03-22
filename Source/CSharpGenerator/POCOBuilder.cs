@@ -11,6 +11,7 @@ class POCOBuilder
     {
         this.dBInfo = dBInfo;
         classOutlines = new List<ClassOutline>();
+        repoOutlines = new List<RepoOutline>();
     }
     
     // Take the input and turn it into objects that can be saved to files or 
@@ -30,7 +31,7 @@ class POCOBuilder
                    classOutline.Fields.Add(new Field(column.ColumnDataType, column.ColumnName));
                }
                
-                repoOutlines.Add(new RepoOutline(table));
+                repoOutlines.Add(new RepoOutline(classOutline.ClassName, table));
             }
             catch(Exception e)
             {
