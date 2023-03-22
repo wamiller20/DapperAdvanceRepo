@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TuplesInterface.Repos
+namespace RepoExample.Repos
 {
     public class ConcreteRepo<T, TKey>
     {
         public T FindByKey(TKey keyForTable)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

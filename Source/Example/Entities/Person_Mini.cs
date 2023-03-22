@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TuplesInterface.Person
+﻿namespace RepoExample.Entities
 {
     public class Person_Mini : Person_Key
     {

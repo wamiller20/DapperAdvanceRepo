@@ -1,4 +1,4 @@
-﻿namespace TuplesInterface.Person
+﻿namespace RepoExample.Entities
 {
     public interface IPerson_Key
     {
