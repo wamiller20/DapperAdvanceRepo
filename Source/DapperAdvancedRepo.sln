@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpGenerator", "CSharpGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoDomain", "RepoDomain\RepoDomain.csproj", "{9C7C1E2A-583B-4361-B0D5-718447EE4B19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSSQLInfoTests", "MSSQLInfoTests\MSSQLInfoTests.csproj", "{F552FFE9-B6F2-4937-944E-DCD061288230}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9C7C1E2A-583B-4361-B0D5-718447EE4B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C7C1E2A-583B-4361-B0D5-718447EE4B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C7C1E2A-583B-4361-B0D5-718447EE4B19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F552FFE9-B6F2-4937-944E-DCD061288230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F552FFE9-B6F2-4937-944E-DCD061288230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F552FFE9-B6F2-4937-944E-DCD061288230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F552FFE9-B6F2-4937-944E-DCD061288230}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

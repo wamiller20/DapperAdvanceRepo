@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSharpGenerator.Interfaces
+namespace RepoDomain.Interfaces
 {
-    public class IColumn
+    public interface IColumn
     {
-        public string ColumnName { get; set; }
-        public string ColumnDataType { get; set; }
-        public bool PrimaryKey { get; set; }
+        string ColumnName { get; set; }
+        string ColumnDataType { get; set; }
+        bool PrimaryKey { get; set; }
 
     }
 }
