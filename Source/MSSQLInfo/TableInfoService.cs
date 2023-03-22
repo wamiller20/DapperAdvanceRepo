@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.SqlServer.Management.Common;
+﻿using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
 namespace MSSQLInfo
 {
     using MSSQLInfo.Entities;
+    using RepoDomain.Extenstions;
     using RepoDomain.Interfaces;
-    using System.Data;
 
     public class TableInfoService
     {
@@ -63,7 +58,7 @@ namespace MSSQLInfo
             var columnInfo = new ColumnInfo();
             columnInfo.ColumnName = column.Name;
             columnInfo.PrimaryKey = column.InPrimaryKey;
-            columnInfo.ColumnDataType = column.DataType.Name;
+            columnInfo.ColumnDataType = column.DataType.Name.SqlTypeToCSharpType();
             return columnInfo;
         }
     }
