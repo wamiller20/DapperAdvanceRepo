@@ -9,6 +9,7 @@ namespace RepoDomain.Interfaces
     public interface ITable
     {
         public string TableName { get; set; }
+        public string SchemaName { get; set; }
         public List<IColumn> Columns { get; set; }
 
     }

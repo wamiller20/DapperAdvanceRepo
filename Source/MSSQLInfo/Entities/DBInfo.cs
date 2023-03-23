@@ -15,5 +15,6 @@ namespace MSSQLInfo.Entities
         }
 
         public List<ITable> Tables { get; set; }
+        public string DBName { get; set; }
     }
 }

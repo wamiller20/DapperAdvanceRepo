@@ -23,7 +23,7 @@ public class RepoOutline
         this.BuildDelete(columns);
     }
 
-    private void BuildCreate()
+    private void BuildCreate(List<IColumn> columns)
     {
         methods.Add(new Method(){
             MethodName = "Create",
