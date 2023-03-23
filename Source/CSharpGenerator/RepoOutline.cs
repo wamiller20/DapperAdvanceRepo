@@ -4,14 +4,14 @@ using RepoDomain.Interfaces;
 public class RepoOutline
 {
     private string className;
-    private string repoName;
+    public string RepoName;
     private List<Method> methods;
     private List<IColumn> columns;
 
     public RepoOutline(string className, ITable table)
     {
         this.className = className;
-        this.repoName = table.TableName + "Repo";
+        this.RepoName = table.TableName + "Repo";
         this.methods = new List<Method>();
         this.columns = table.Columns;
         this.BuildCRUDOperations(); 
@@ -39,7 +39,7 @@ public class RepoOutline
                 }
             }),
             Body = $@"var sql =
-                ""INSERT INTO {this.repoName} ({this.ColumnsToString()}) VALUES({this.ColumnsToParameters()}); "" +
+                ""INSERT INTO {this.RepoName} ({this.ColumnsToString()}) VALUES({this.ColumnsToParameters()}); "" +
                 ""SELECT CAST(SCOPE_IDENTITY() as int)"";
             var id = this.db.Query<int>(sql, {parameterClassName}).Single();
             return {parameterClassName};"

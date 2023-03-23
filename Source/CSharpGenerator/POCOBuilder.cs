@@ -1,7 +1,8 @@
 // See https://aka.ms/new-console-template for more information
 using RepoDomain.Interfaces;
+using System.Text;
 
-class POCOBuilder
+public class POCOBuilder
 {
     private IDBInfo dBInfo;
     private List<ClassOutline> classOutlines;
@@ -23,13 +24,6 @@ class POCOBuilder
             try
             {
                var classOutline  = new ClassOutline(dBInfo, table);
-               // classOutline.ClassName = table.TableName;
-               // 
-               // classOutline.Fields = new List<Field>();
-               // foreach(var column in table.Columns)
-               // {
-               //     classOutline.Fields.Add(new Field(column.ColumnDataType, column.ColumnName));
-               // }
                
                 repoOutlines.Add(new RepoOutline(classOutline.ClassName, table));
             }
@@ -42,12 +36,22 @@ class POCOBuilder
     
     public void Save(string path)
     {
-        throw new NotImplementedException();
-
-        using(var fileStream = File.OpenWrite(path))
+        foreach (var classOutline in classOutlines)
         {
-            // fileStream.Write()
+            using (var fileStream = File.OpenWrite(Path.Combine(path, "Entities", classOutline.ClassName + ".cs")))
+            {
+                fileStream.Write(Encoding.ASCII.GetBytes(classOutline.GetClassOutline()));
+            }
         }
+
+        foreach (var repoOutline in repoOutlines)
+        {
+            using (var fileStream = File.OpenWrite(Path.Combine(path, "Entities", repoOutline.RepoName + ".cs")))
+            {
+                fileStream.Write(Encoding.ASCII.GetBytes(repoOutline.ToString()));
+            }
+        }
+
     }
 
     public string Dump()
