@@ -25,6 +25,7 @@ namespace MSSQLInfo
             var server = GetServer();
             var database = server.Databases[this.databaseName];
             var dbInfo = new DBInfo();
+            dbInfo.DBName = this.databaseName;
 
             foreach (Table table in database.Tables)
             {
@@ -46,6 +47,7 @@ namespace MSSQLInfo
         {
             var tableInfo = new TableInfo();
             tableInfo.TableName = table.Name;
+            tableInfo.SchemaName = table.Schema;
             foreach (Column column in table.Columns)
             {
                 tableInfo.Columns.Add(GetColumn(column));

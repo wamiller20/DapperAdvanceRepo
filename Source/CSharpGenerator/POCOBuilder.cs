@@ -22,14 +22,14 @@ class POCOBuilder
         {
             try
             {
-               var classOutline  = new ClassOutline();
-               classOutline.ClassName = table.TableName;
-
-               classOutline.Fields = new List<Field>();
-               foreach(var column in table.Columns)
-               {
-                   classOutline.Fields.Add(new Field(column.ColumnDataType, column.ColumnName));
-               }
+               var classOutline  = new ClassOutline(dBInfo, table);
+               // classOutline.ClassName = table.TableName;
+               // 
+               // classOutline.Fields = new List<Field>();
+               // foreach(var column in table.Columns)
+               // {
+               //     classOutline.Fields.Add(new Field(column.ColumnDataType, column.ColumnName));
+               // }
                
                 repoOutlines.Add(new RepoOutline(classOutline.ClassName, table));
             }
