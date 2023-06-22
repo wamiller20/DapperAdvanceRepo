@@ -9,30 +9,94 @@ namespace MSSQLInfo
 
     public class TableInfoService
     {
-        private readonly string serverName;
-        private readonly string databaseName;
-        private readonly string connectionString;
+        private string? serverName;
+        private string? databaseName;
+        private string? connectionString;
 
         public TableInfoService(string serverName, string databaseName)
         {
             this.serverName = serverName;
             this.databaseName = databaseName;
-            this.connectionString = $"data source={serverName};initial catalog = {databaseName}; Encrypt=False; persist security info = True;Integrated Security = SSPI;";
+            this.connectionString = $"data source={this.serverName};initial catalog = {this.databaseName}; Encrypt=False; persist security info = True;Integrated Security = SSPI;";
         }
 
-        public IDBInfo GetDBInfo()
+        public IDBInfo GetAllDBInfo()
         {
-            var server = GetServer();
-            var database = server.Databases[this.databaseName];
+            var database = GetDatabaseService();
             var dbInfo = new DBInfo();
             dbInfo.DBName = this.databaseName;
 
             foreach (Table table in database.Tables)
             {
-                dbInfo.Tables.Add(GetTable(table));
+                if (table.Name.StartsWith("A") && table.Schema.StartsWith("dbo"))
+                {
+                    dbInfo.Tables.Add(GetTable(table));
+                }
+            }
+            return dbInfo;
+        }
+
+        public IDBInfo GetSelectedDBInfo(List<ITableOrViewItem> Items)
+        {
+            var database = GetDatabaseService();
+            var dbInfo = new DBInfo();
+            dbInfo.DBName = this.databaseName;
+
+            foreach (var item in Items)
+            {
+                if(item.TypeOfItem.ToLower() == "table")
+                {
+                    var table = database.Tables.ItemById(item.ItemID);
+                    dbInfo.Tables.Add(GetTable(table));
+                }
+                else if(item.TypeOfItem.ToLower() == "view")
+                {
+                    //todo: Finish doing Views
+                }
                 
             }
             return dbInfo;
+        }
+
+        public List<ITableOrViewItem> GetAllTables()
+        {
+            var database = GetDatabaseService();
+            var tableItems = new List<ITableOrViewItem>();
+            foreach (Table table in database.Tables)
+            {
+                if (table.Name.StartsWith("A") && table.Schema.StartsWith("dbo"))
+                {
+                    tableItems.Add(new TableItem() { SchemaName = table.Schema, ItemName = table.Name, ItemID = table.ID });
+                }
+            }
+            return tableItems;
+        }
+
+        public List<ITableOrViewItem> GetAllViews()
+        {
+            var database = GetDatabaseService();
+            var viewItems = new List<ITableOrViewItem>();
+            foreach (View view in database.Views)
+            {
+                if (view.Name.StartsWith("A") && view.Schema.StartsWith("dbo"))
+                {
+                    viewItems.Add(new ViewItem() { SchemaName = view.Schema, ItemName = view.Name, ItemID = view.ID });
+                }
+            }
+            return viewItems;
+        }
+
+        private Database GetDatabaseService()
+        {
+            var server = GetServer();
+            return server.Databases[this.databaseName];
+        }
+
+        private void SetupDBFields(string serverName, string databaseName)
+        {
+            this.serverName = serverName;
+            this.databaseName = databaseName;
+            this.connectionString = $"data source={this.serverName};initial catalog = {this.databaseName}; Encrypt=False; persist security info = True;Integrated Security = SSPI;";
         }
 
         private Server GetServer()
@@ -43,7 +107,7 @@ namespace MSSQLInfo
             return new Server(serverConnection);
         }
 
-        private ITable GetTable(Table table)
+        private ITableInfo GetTable(Table table)
         {
             var tableInfo = new TableInfo();
             tableInfo.TableName = table.Name;
@@ -55,12 +119,13 @@ namespace MSSQLInfo
             return tableInfo;
         }
 
-        private IColumn GetColumn(Column column)
+        private IColumnInfo GetColumn(Column column)
         {
             var columnInfo = new ColumnInfo();
             columnInfo.ColumnName = column.Name;
             columnInfo.PrimaryKey = column.InPrimaryKey;
             columnInfo.ColumnDataType = column.DataType.Name.SqlTypeToCSharpType();
+            columnInfo.IsIdentity = column.Identity;
             return columnInfo;
         }
     }

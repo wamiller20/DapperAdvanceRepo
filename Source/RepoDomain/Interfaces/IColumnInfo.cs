@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace RepoDomain.Interfaces
 {
-    public interface IColumn
+    public interface IColumnInfo
     {
         string ColumnName { get; set; }
         string ColumnDataType { get; set; }
         bool PrimaryKey { get; set; }
+        bool IsIdentity { get; set; }
 
     }
 }

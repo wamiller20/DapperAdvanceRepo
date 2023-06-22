@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoDomain", "RepoDomain\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSSQLInfoTests", "MSSQLInfoTests\MSSQLInfoTests.csproj", "{F552FFE9-B6F2-4937-944E-DCD061288230}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpGeneratorTests", "CSharpGeneratorTests\CSharpGeneratorTests.csproj", "{B6725E8A-EBE9-4FB7-8B2E-44C02076B7F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpGeneratorTests", "CSharpGeneratorTests\CSharpGeneratorTests.csproj", "{B6725E8A-EBE9-4FB7-8B2E-44C02076B7F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoDomainTests", "RepoDomainTests\RepoDomainTests.csproj", "{A4985970-E5B6-4146-9972-58D422DA0BAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoDomainTests", "RepoDomainTests\RepoDomainTests.csproj", "{A4985970-E5B6-4146-9972-58D422DA0BAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsFrontEnd", "WindowsFormsFrontEnd\WindowsFormsFrontEnd.csproj", "{AD8880C9-BF38-411E-B801-AEA6FF35A0F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{A4985970-E5B6-4146-9972-58D422DA0BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4985970-E5B6-4146-9972-58D422DA0BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4985970-E5B6-4146-9972-58D422DA0BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD8880C9-BF38-411E-B801-AEA6FF35A0F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD8880C9-BF38-411E-B801-AEA6FF35A0F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD8880C9-BF38-411E-B801-AEA6FF35A0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD8880C9-BF38-411E-B801-AEA6FF35A0F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

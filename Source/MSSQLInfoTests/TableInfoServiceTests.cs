@@ -25,7 +25,7 @@ namespace MSSQLInfo.Tests
         [TestMethod]
         public void GetDBInfoTest()
         {
-            var dbInfo = this.tableInfoService.GetDBInfo();
+            var dbInfo = this.tableInfoService.GetAllDBInfo();
 
             dbInfo.ShouldNotBeNull();
             dbInfo.Tables.First().TableName.ShouldNotBeNullOrWhiteSpace();

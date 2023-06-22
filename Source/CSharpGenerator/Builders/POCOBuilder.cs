@@ -5,13 +5,13 @@ using System.Text;
 public class POCOBuilder
 {
     private IDBInfo dBInfo;
-    private List<ClassOutline> classOutlines;
+    private List<POCOClassOutline> classOutlines;
     private List<RepoOutline> repoOutlines;
 
     public POCOBuilder(IDBInfo dBInfo)
     {
         this.dBInfo = dBInfo;
-        classOutlines = new List<ClassOutline>();
+        classOutlines = new List<POCOClassOutline>();
         repoOutlines = new List<RepoOutline>();
     }
     
@@ -19,13 +19,13 @@ public class POCOBuilder
     // dumped to stdout.
     public void Build()
     {
-        foreach(Table table in dBInfo.Tables)
+        foreach(var table in dBInfo.Tables)
         {
             try
             {
-               var classOutline  = new ClassOutline(dBInfo, table);
-               
-                repoOutlines.Add(new RepoOutline(classOutline.ClassName, table));
+               var classOutline  = new POCOClassOutline(dBInfo, table);
+               this.classOutlines.Add(classOutline);
+               this.repoOutlines.Add(new RepoOutline(classOutline.ClassName, table));
             }
             catch(Exception e)
             {
@@ -38,18 +38,18 @@ public class POCOBuilder
     {
         foreach (var classOutline in classOutlines)
         {
-            using (var fileStream = File.OpenWrite(Path.Combine(path, "Entities", classOutline.ClassName + ".cs")))
-            {
-                fileStream.Write(Encoding.ASCII.GetBytes(classOutline.GetClassOutline()));
-            }
+            var folderPath = Path.Combine(path, "Entities");
+            var filePath = Path.Combine(folderPath, classOutline.ClassName + ".cs");
+            Directory.CreateDirectory(folderPath);
+            File.WriteAllText(filePath, classOutline.GetPOCOClassOutline());
         }
 
         foreach (var repoOutline in repoOutlines)
         {
-            using (var fileStream = File.OpenWrite(Path.Combine(path, "Entities", repoOutline.RepoName + ".cs")))
-            {
-                fileStream.Write(Encoding.ASCII.GetBytes(repoOutline.ToString()));
-            }
+            var folderPath = Path.Combine(path, "Repos");
+            var filePath = Path.Combine(folderPath, repoOutline.RepoName + ".cs");
+            Directory.CreateDirectory(folderPath);
+            File.WriteAllText(filePath, repoOutline.ToString());
         }
 
     }

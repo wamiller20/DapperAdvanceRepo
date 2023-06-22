@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace MSSQLInfo.Entities
 {
-    public class ColumnInfo : IColumn
+    public class ColumnInfo : IColumnInfo
     {
         public string ColumnName { get; set; }
         public string ColumnDataType { get; set; }
         public bool PrimaryKey { get; set; }
+        public bool IsIdentity { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace RepoDomain.Interfaces
     public interface IDBInfo
     {
         public string DBName { get; set; }
-        public List<ITable> Tables { get; set; }
+        public List<ITableInfo> Tables { get; set; }
     }
 }

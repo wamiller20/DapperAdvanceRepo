@@ -2,24 +2,24 @@ using RepoDomain.Extenstions;
 using RepoDomain.Interfaces;
 using System.Text;
 
-public class ClassOutline
+public class POCOClassOutline
 {
     protected readonly IDBInfo dbInfo;
     public string NameSpace;
     public string ClassName;
     public List<Field> Fields;
-    public ITable TableInfo { get; set; }
+    public ITableInfo TableInfo { get; set; }
     private string newLine = "\n\r";
     private string tab = "\t";
 
-    public ClassOutline(IDBInfo dbInfo, ITable tableInfo)
+    public POCOClassOutline(IDBInfo dbInfo, ITableInfo tableInfo)
     {
         this.dbInfo = dbInfo;
         TableInfo = tableInfo;
         this.Setup();
     }
 
-    public string GetClassOutline()
+    public string GetPOCOClassOutline()
     {
         var sb = new StringBuilder();
         sb.AppendLine(this.GetNamespace_Begin());
@@ -34,12 +34,17 @@ public class ClassOutline
         return sb.ToString();
     }
 
-    protected void Setup()
+    public static string GetPOCOClassNamespace(IDBInfo dbInfo)
     {
-        this.NameSpace = $@"{this.dbInfo.DBName}Repo.Entities";
+        return $@"{dbInfo.DBName}Repo.Entities";
+    }
+
+    protected virtual void Setup()
+    {
+        this.NameSpace = GetPOCOClassNamespace(this.dbInfo);
         this.TableInfo = this.TableInfo;
         this.ClassName = this.TableInfo.TableName;
-        this.Fields = this.TableInfo.Columns.Select(x => new Field(x.ColumnDataType, x.ColumnName.FirstCharToUpperCase(), x.PrimaryKey)).ToList();
+        this.Fields = this.TableInfo.Columns.Select(x => new Field(x.ColumnDataType, x.ColumnName.FirstCharToUpperCase(), x.PrimaryKey, x.IsIdentity)).ToList();
     }
 
     protected string GetNamespace_Begin()
@@ -95,7 +100,7 @@ public class ClassOutline
         var nonPrimaryKeyFields = this.Fields.Where(x => x.InPrimaryKey == false);
         foreach (var field in nonPrimaryKeyFields)
         {
-            sb.AppendLine($"{tab + tab}public {field.FieldType} {field.FieldName.FirstCharToLowerCase()}");
+            sb.AppendLine($"{tab + tab}public {field.FieldType} {field.FieldName.FirstCharToUpperCase()}");
             sb.AppendLine(tab + tab + "{");
             sb.AppendLine(tab + tab + tab +"get { return this." + field.FieldName.FirstCharToLowerCase() + "; }");
             sb.AppendLine(tab + tab + tab + "set");

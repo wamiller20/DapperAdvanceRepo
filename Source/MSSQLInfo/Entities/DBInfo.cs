@@ -11,10 +11,10 @@ namespace MSSQLInfo.Entities
     {
         public DBInfo()
         {
-            this.Tables = new List<ITable>();
+            this.Tables = new List<ITableInfo>();
         }
 
-        public List<ITable> Tables { get; set; }
+        public List<ITableInfo> Tables { get; set; }
         public string DBName { get; set; }
     }
 }

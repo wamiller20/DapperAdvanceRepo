@@ -1,20 +1,44 @@
 // See https://aka.ms/new-console-template for more information
 using RepoDomain.Interfaces;
+using System.Text;
 
 public class RepoOutline
 {
     private string className;
     public string RepoName;
     private List<Method> methods;
-    private List<IColumn> columns;
+    private List<IColumnInfo> columns;
+    private string newLine = "\n\r";
+    private string tab = "\t";
+    private readonly ITableInfo tableInfo;
+    private readonly IDBInfo dBInfo;
 
-    public RepoOutline(string className, ITable table)
+    public RepoOutline(IDBInfo dBInfo, ITableInfo table)
     {
-        this.className = className;
-        this.RepoName = table.TableName + "Repo";
+        this.tableInfo = table;
+        this.dBInfo = dBInfo;
+    }
+
+    protected virtual void Setup()
+    {
+        this.className = $"{this.tableInfo.TableName}Repo";
+        this.RepoName = this.tableInfo.TableName + "Repo";
         this.methods = new List<Method>();
-        this.columns = table.Columns;
-        this.BuildCRUDOperations(); 
+        this.columns = this.tableInfo.Columns;
+        this.BuildCRUDOperations();
+    }
+
+    public string GetRepoOutline()
+    {
+        var classDeclaration = $"public class {className}\n";
+        var classBody = "{\n";
+        foreach (var method in methods)
+        {
+            classBody = $"{classBody}{method.ToString()}\n";
+        }
+        classBody.Append('}');
+
+        return $"{classDeclaration}{classBody}";
     }
 
     private void BuildCRUDOperations()
@@ -25,8 +49,9 @@ public class RepoOutline
         // this.BuildDelete();
     }
 
-    private void BuildCreate()
+    private string GetCreateFunctionWithIdentity()
     {
+        var sb = new StringBuilder();
         var parameterClassName = this.className.ToLower();
         methods.Add(new Method(){
             MethodName = "Create",
@@ -60,23 +85,7 @@ public class RepoOutline
     {
         throw new NotImplementedException();
     }
-    
-    public override string ToString()
-    {
-       var classDeclaration = $"public class {className}\n";
-       
-       var classBody = "{\n";
-
-       foreach(var method in methods)
-       {
-           classBody = $"{classBody}{method.ToString()}\n";
-       }
-       
-       classBody.Append('}');
-       
-       return $"{classDeclaration}{classBody}";
-    }
-    
+        
     #region Helper Methods
     private string ColumnsToString()
     {

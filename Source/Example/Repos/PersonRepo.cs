@@ -14,22 +14,87 @@ namespace RepoExample.Repos
             this.db = new SqlConnection(connString);
         }
 
+        public PersonRepo(IDbConnection db)
+        {
+            this.db = db;
+        }
+
+        /// <summary>
+        /// Add ClassNameHere to database
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns>Returns ClassNameHere with entity column updated from database.</returns>
         public Person Add(Person person)
         {
-            var sql =
-                "INSERT INTO Contacts (FirstName, LastName, Email, Company, Title) VALUES(@FirstName, @LastName, @Email, @Company, @Title); " +
-                "SELECT CAST(SCOPE_IDENTITY() as int)";
+            var sql ="INSERT INTO Contacts (" +
+                            "FirstName, LastName, Email, Company, Title" +
+                        ") " +
+                        "VALUES(" +
+                            "@FirstName, @LastName, @Email, @Company, @Title" +
+                        "); " +
+                        "SELECT CAST(SCOPE_IDENTITY() as int);";
             var id = this.db.Query<int>(sql, person).Single();
             person.BusinessEntityID = id;
             return person;
         }
 
-        public Person Find(int id)
+        /// <summary>
+        /// Adds ClassNameHere to database.
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns>Number of records added.</returns>
+        public int Add1(Person person)
         {
-            return this.db.Query<Person>("SELECT * FROM Person WHERE Id = @Id", new { id }).SingleOrDefault();
+            var sql = "INSERT INTO Contacts (" +
+                            "FirstName, LastName, Email, Company, Title" +
+                        ") " +
+                        "VALUES(" +
+                            "@FirstName, @LastName, @Email, @Company, @Title" +
+                        "); " +
+                        "SELECT CAST(SCOPE_IDENTITY() as int);";
+            var id = this.db.Execute(sql, person);
+            return person;
         }
 
-        
+        public Person Find(int id1, int id2)
+        {
+            var sql = "SELECT FirstName, LastName, Email, Company, Title " +
+                        "FROM Contacts " +
+                        "WHERE Id1 = @Id1 AND Id2 = @Id2;";
+            return this.db.Query<Person>(sql, new { id1, id2 }).SingleOrDefault();
+        }
+
+
+        public Person Update(Person address)
+        {
+            this.db.Execute("UPDATE Addresses " +
+                "SET AddressType = @AddressType, " +
+                "    StreetAddress = @StreetAddress, " +
+                "    City = @City, " +
+                "    StateId = @StateId, " +
+                "    PostalCode = @PostalCode " +
+                "WHERE Id = @Id", address);
+            return address;
+        }
+
+        public Person UpdateOnlyChangedFields(Person person)
+        {
+            var sql = 
+            this.db.Execute("UPDATE Addresses " +
+                "SET AddressType = @AddressType, " +
+                "    StreetAddress = @StreetAddress, " +
+                "    City = @City, " +
+                "    StateId = @StateId, " +
+                "    PostalCode = @PostalCode " +
+                "WHERE Id = @Id", person);
+            return person;
+        }
+
+        public void Remove(int id)
+        {
+            this.db.Execute("DELETE FROM Contacts WHERE Id = @Id", new { id });
+        }
+
 
         //public Address Add(Address address)
         //{
